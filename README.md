@@ -45,8 +45,11 @@ Chaque root doit utiliser les directives `@yield` pour définir les zones dynami
 **Questions :**
 
 1. Quelle est la différence entre `@yield('title')` et `@yield('title', 'Valeur par défaut')` ?
+   **Réponse :** `@yield('title')` est une zone vide si non définie. `@yield('title', 'Valeur par défaut')` affiche 'Valeur par défaut' si aucune valeur n'est donnée par la vue enfant.
 2. Pourquoi utilise-t-on `@extends` plutôt que d'inclure le header et le footer manuellement dans chaque fichier de vue ?
+   **Réponse :** `@extends` permet d'avoir une structure centrale modifiable en un seul endroit, contrairement à l'inclusion manuelle qui force à répéter le code.
 3. Comment s'assure-t-on qu'une vue du dashboard n'étende jamais accidentellement le layout public ?
+   **Réponse :** En utilisant des dossiers distincts (ex: `layouts/public` et `layouts/admin`) et en s'assurant que les vues du dashboard étendent spécifiquement le layout `dashboard.blade.php`.
 
 ---
 
@@ -74,7 +77,9 @@ Chaque root doit utiliser les directives `@yield` pour définir les zones dynami
 **Questions :**
 
 1. Comment rendre la classe `active` d'un lien de la sidebar **dynamique** selon la route courante, en utilisant `request()->routeIs()` ou `Route::currentRouteName()` ?
+   **Réponse :** On utilise : `<a class="{{ request()->routeIs('dashboard.index') ? 'active' : '' }}" href="...">Lien</a>`.
 2. Pourquoi est-il préférable de placer les composants du dashboard dans un sous-dossier `components/dashboard/` plutôt que directement dans `components/` ?
+   **Réponse :** Pour mieux organiser les fichiers et éviter de polluer le dossier `components` principal quand le nombre de composants augmente.
 
 ---
 
@@ -95,9 +100,13 @@ Dans le fichier `routes/web.php`, déclarez une route nommée pour chacune des v
 **Questions :**
 
 1. Quelle est la différence entre `Route::get()` et `Route::post()` ? Dans quel cas utilise-t-on l'un plutôt que l'autre ?
+   **Réponse :** `GET` sert à récupérer des données (affichage), `POST` sert à envoyer des données (soumission de formulaire).
 2. Comment déclarer et nommer une route avec la méthode `->name()` ? Pourquoi les noms de routes sont-ils indispensables pour utiliser `route()` dans les vues Blade ?
+   **Réponse :** `Route::get('/url', ...)->name('nom');`. Ils permettent d'utiliser `route('nom')` dans les vues : si l'URL change dans `web.php`, tous les liens se mettent à jour automatiquement.
 3. Qu'est-ce qu'un paramètre de route dynamique comme `{id}` ? Comment le récupérer dans le contrôleur ?
+   **Réponse :** C'est une variable dans l'URL. On le récupère en argument dans la méthode du contrôleur : `public function show($id) { ... }`.
 4. Que se passe-t-il si deux routes ont la même URL mais des méthodes HTTP différentes (`GET` et `POST`) ?
+   **Réponse :** Laravel les traite comme deux routes distinctes. `GET` affichera la page, `POST` traitera le formulaire.
 
 ---
 
@@ -124,8 +133,16 @@ Exemple de routes attendues :
 **Questions :**
 
 1. Quelle est la syntaxe complète pour créer un groupe de routes avec un préfixe d'URL et un préfixe de nom en même temps ?
+   **Réponse :**
+   ```php
+   Route::prefix('dashboard')->name('dashboard.')->group(function () {
+       // ...
+   });
+   ```
 2. Quelle est la différence entre `Route::prefix()` et `Route::middleware()` dans un groupe de routes ?
+   **Réponse :** `prefix()` modifie l'URL, `middleware()` protège l'accès (ex: vérification que l'utilisateur est admin).
 3. Qu'est-ce que `Route::resource()` ? Pour quelles ressources (articles, catégories, utilisateurs) serait-il pertinent de l'utiliser et quelles routes génère-t-il automatiquement ?
+   **Réponse :** C'est un raccourci pour déclarer les 7 routes RESTful (index, create, store, show, edit, update, destroy). Utile pour `Post`, `Category`, `User`.
 
 ---
 
@@ -153,13 +170,11 @@ Chaque méthode doit retourner sa vue correspondante avec `return view('...')`.
 **Questions :**
 
 1. Quelle est la commande artisan pour générer un contrôleur ? Quelle option ajouter pour générer directement un **contrôleur de ressource** avec toutes les méthodes CRUD ?
+   **Réponse :** `php artisan make:controller NomController`. Pour un contrôleur de ressource : `php artisan make:controller NomController --resource`.
 2. Quelle est la convention de nommage des méthodes d'un contrôleur de ressource Laravel (`index`, `show`, `create`, `store`, `edit`, `update`, `destroy`) ? À quelle action correspond chacune ?
+   **Réponse :** `index` (liste), `create` (formulaire création), `store` (sauvegarde), `show` (détail), `edit` (formulaire modif), `update` (mise à jour), `destroy` (suppression).
 3. Quelle est la différence entre ces trois façons de passer des données à une vue depuis un contrôleur ?
-   ```php
-   return view('articles', ['posts' => $posts]);
-   return view('articles', compact('posts'));
-   return view('articles')->with('posts', $posts);
-   ```
+   **Réponse :** Ce sont trois façons équivalentes d'envoyer des données. `compact` est le plus élégant, `with` est très lisible, le tableau est la base.
 
 ---
 
