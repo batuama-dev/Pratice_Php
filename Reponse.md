@@ -20,17 +20,36 @@
 
 ## Question 5 — Groupement des routes du dashboard
 
-1. 
-   ```php
-   Route::prefix('dashboard')->name('dashboard.')->group(function () {
-       // ...
-   });
-   ```
-2. `prefix()` modifie l'URL, `middleware()` protège l'accès (ex: vérification que l'utilisateur est admin).
-3. C'est un raccourci pour déclarer les 7 routes RESTful (index, create, store, show, edit, update, destroy). Utile pour `Post`, `Category`, `User`.
+1.  ```php
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        // ...
+    });
+    ```
+2.  `prefix()` modifie l'URL, `middleware()` protège l'accès (ex: vérification que l'utilisateur est admin).
+3.  C'est un raccourci pour déclarer les 7 routes RESTful (index, create, store, show, edit, update, destroy). Utile pour `Post`, `Category`, `User`.
 
 ## Question 6 — Création des contrôleurs
 
 1. `php artisan make:controller NomController`. Pour un contrôleur de ressource : `php artisan make:controller NomController --resource`.
 2. `index` (liste), `create` (formulaire création), `store` (sauvegarde), `show` (détail), `edit` (formulaire modif), `update` (mise à jour), `destroy` (suppression).
 3. Ce sont trois façons équivalentes d'envoyer des données. `compact` est le plus élégant, `with` est très lisible, le tableau est la base.
+
+---
+
+Partie Publique
+
+- Accueil : http://mon-domaine/ (Nom de route : home)
+- Liste des articles : http://mon-domaine/articles (articles.index)
+- Un article précis : http://mon-domaine/articles/{slug} (articles.show)
+- Catégories : http://lon-domaine/categories (categories.index)
+- À propos : http://mon-domaine/about (about)
+
+Partie Administration
+Toutes ces URLs commencent par le préfixe /dashboard :
+
+- Accueil Admin : http://mon-domaine/dashboard (dashboard.index)
+- Articles (Admin) : http://mon-domaine/dashboard/articles (dashboard.articles)
+- Catégories (Admin) : http://mon-domaine/dashboard/categories (dashboard.categories)
+- Utilisateurs : http://mon-domaine/dashboard/utilisateurs (dashboard.users)
+- Commentaires : http://mon-domaine/dashboard/commentaires (dashboard.comments)
+- Réglages : http://mon-domaine/dashboard/reglages (dashboard.settings)

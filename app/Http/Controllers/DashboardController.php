@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    // Question 6 : Méthodes du dashboard
     public function index() { return view('dashboard.index'); }
     public function articles() { return view('dashboard.articles'); }
     public function categories() { return view('dashboard.categories'); }

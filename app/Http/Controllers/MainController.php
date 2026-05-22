@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
+    // Question 6 : Méthodes de la partie publique
     public function index() { return view('public.index'); }
     public function articles() { return view('public.articles'); }
     public function article($slug) { return view('public.article', ['slug' => $slug]); }
