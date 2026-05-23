@@ -4,12 +4,57 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class MainController extends Controller
+class MainController
 {
-    // Question 6 : Méthodes de la partie publique
-    public function index() { return view('public.index'); }
-    public function articles() { return view('public.articles'); }
-    public function article($slug) { return view('public.article', ['slug' => $slug]); }
-    public function categories() { return view('public.categories'); }
-    public function about() { return view('public.about'); }
+    /**
+     * Page d'accueil du blog.
+     * Oriente l'utilisateur vers la vue principale (index).
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index() 
+    {
+        return view('posts.index');
+    }
+
+    /**
+     * Liste complète des articles.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function articles() 
+    {
+        return view('posts.articles');
+    }
+
+    /**
+     * Affichage d'un article unique via son slug.
+     *
+     * @param string $slug
+     * @return \Illuminate\View\View
+     */
+    public function article(string $slug) 
+    {
+        return view('posts.show', ['post' => $slug]);
+    }
+
+    /**
+     * Page regroupant les catégories d'articles.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function categories() 
+    {
+        return view('posts.categories');
+    }
+
+    /**
+     * Page "À propos" du site.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function about() 
+    {
+        return view('posts.about');
+    }
 }
